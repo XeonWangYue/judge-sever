@@ -1,0 +1,23 @@
+server:
+  port: 8081
+
+spring:
+  application:
+    name: judge-server
+  # 数据库 PostgreSQL
+  datasource:
+    url: jdbc:postgresql://localhost:5432/你的数据库名
+    username: postgres
+    password: ai1331092
+    driver-class-name: org.postgresql.Driver
+  data:
+    redis:
+      host: localhost
+      port: 6379
+      password: ai1331092
+      database: 0
+
+logging:
+  level:
+    root: info
+    org.springframework.web: debug
