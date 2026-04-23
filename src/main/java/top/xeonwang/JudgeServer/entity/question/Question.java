@@ -1,4 +1,4 @@
-package com.ueascend.JudgeServer.entity.question;
+package top.xeonwang.JudgeServer.entity.question;
 
 import lombok.Data;
 

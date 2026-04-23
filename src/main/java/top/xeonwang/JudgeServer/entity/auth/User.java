@@ -1,4 +1,4 @@
-package com.ueascend.JudgeServer.entity.auth;
+package top.xeonwang.JudgeServer.entity.auth;
 
 import lombok.Data;
 

@@ -1,4 +1,4 @@
-package com.ueascend.JudgeServer;
+package top.xeonwang.JudgeServer;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

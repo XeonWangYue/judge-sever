@@ -1,9 +1,9 @@
 /*
     用户管理
  */
-package com.ueascend.JudgeServer.controller;
+package top.xeonwang.JudgeServer.controller;
 
-import com.ueascend.JudgeServer.common.ResponseBody;
+import top.xeonwang.JudgeServer.common.ResponseBody;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;

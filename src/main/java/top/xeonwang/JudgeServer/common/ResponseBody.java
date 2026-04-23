@@ -1,4 +1,4 @@
-package com.ueascend.JudgeServer.common;
+package top.xeonwang.JudgeServer.common;
 
 import lombok.Data;
 

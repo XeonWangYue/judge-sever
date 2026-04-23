@@ -1,12 +1,9 @@
-package com.ueascend.JudgeServer.controller;
+package top.xeonwang.JudgeServer.controller;
 
-import com.ueascend.JudgeServer.common.ResponseBody;
+import top.xeonwang.JudgeServer.common.ResponseBody;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-
-import java.util.HashMap;
-import java.util.Map;
 
 @Slf4j
 @RestController
@@ -15,7 +12,7 @@ public class CommitController {
 
     @PostMapping("/{questionId}")
     public ResponseBody<String> uploadMultiFile(
-            @PathVariable("questionId") Long questionId,
+            @PathVariable Long questionId,
             @RequestParam("code") MultipartFile code,
             @RequestParam("language") String language
     ) {

@@ -6,7 +6,7 @@ spring:
     name: judge-server
   # 数据库 PostgreSQL
   datasource:
-    url: jdbc:postgresql://localhost:5432/你的数据库名
+    url: jdbc:postgresql://localhost:5432/judge_server
     username: postgres
     password: ai1331092
     driver-class-name: org.postgresql.Driver
@@ -16,8 +16,24 @@ spring:
       port: 6379
       password: ai1331092
       database: 0
-
+      lettuce:
+        pool:
+          max-active: 8     # 最大连接数
+          max-wait: -1ms    # 最大阻塞时间（-1无限制）
+          max-idle: 8       # 最大空闲连接
+          min-idle: 0       # 最小空闲连接
 logging:
   level:
     root: info
     org.springframework.web: debug
+
+# 令牌配置
+token:
+  # 密钥（必须32位以上，生产环境请用复杂随机字符串）
+  secret: abcdefghijklmnopqrstuvwxyz1234567890ABCDEFG
+  # 短期Token有效期 30分钟（毫秒）
+  access-expire: 1800000
+  # 长期Token有效期 7天（毫秒）
+  refresh-expire: 604800000
+  # 初始登录令牌有效期 24小时
+  init-expire: 86400000
