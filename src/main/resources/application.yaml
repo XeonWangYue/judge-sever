@@ -1,8 +1,10 @@
+
 server:
   port: 8081
 
 spring:
   application:
+
     name: judge-server
   # 数据库 PostgreSQL
   datasource:

@@ -1,9 +1,12 @@
 package top.xeonwang.JudgeServer.service;
 
+import jakarta.annotation.Resource;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import top.xeonwang.JudgeServer.entity.auth.RedisPrefixConstants;
 import top.xeonwang.JudgeServer.entity.auth.TokenConstants;
+import top.xeonwang.JudgeServer.exception.AuthCode;
+import top.xeonwang.JudgeServer.exception.AuthException;
 import top.xeonwang.JudgeServer.utils.JwtUtil;
 import top.xeonwang.JudgeServer.utils.RedisUtil;
 
@@ -12,11 +15,12 @@ import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 @Service
-@RequiredArgsConstructor
 public class AuthService {
 
+    @Resource
     private RedisUtil redisUtil;
 
+    @Resource
     private JwtUtil jwtUtil;
 
     /**
@@ -26,13 +30,11 @@ public class AuthService {
         String redisKey = RedisPrefixConstants.INIT_TOKEN_KEY + initToken;
         // 1. 校验初始令牌是否存在
         if (!redisUtil.hasKey(redisKey)) {
-            throw new RuntimeException("初始令牌无效或已过期");
+            throw new AuthException(AuthCode.INIT_TOKEN_ERR, "初始令牌无效或已过期");
         }
 
         // 2. 获取用户ID
         String userId = (String) redisUtil.get(redisKey);
-        // 3. 初始令牌一次性使用，删除（防止重复使用）
-        redisUtil.del(redisKey);
 
         // 4. 生成自定义信息（权限、用户信息等）
         Map<String, Object> claims = new HashMap<>();
@@ -60,13 +62,13 @@ public class AuthService {
     public Map<String, String> refreshToken(String refreshToken) {
         // 1. 校验RefreshToken格式和签名
         if (!jwtUtil.validateToken(refreshToken)) {
-            throw new RuntimeException("刷新令牌无效");
+            throw new AuthException(AuthCode.REFRESH_TOKEN_ERR, "刷新令牌无效");
         }
 
         // 2. 必须是RefreshToken类型
         String tokenType = jwtUtil.getTokenType(refreshToken);
         if (!TokenConstants.REFRESH_TOKEN.equals(tokenType)) {
-            throw new RuntimeException("请使用刷新令牌");
+            throw new AuthException(AuthCode.TOKEN_TYPE_ERR, "请使用刷新令牌");
         }
 
         // 3. 获取用户ID
@@ -77,7 +79,7 @@ public class AuthService {
         String redisRefreshToken = (String) redisUtil.get(refreshRedisKey);
         if (!refreshToken.equals(redisRefreshToken)) {
             // 不一致说明令牌已被顶下线/强制注销
-            throw new RuntimeException("刷新令牌已失效，请重新登录");
+            throw new AuthException(AuthCode.TOKEN_EXPIRE, "刷新令牌已失效，请重新登录");
         }
 
         // 5. 生成新的AccessToken

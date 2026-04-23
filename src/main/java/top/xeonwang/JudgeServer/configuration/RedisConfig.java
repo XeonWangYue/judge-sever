@@ -30,7 +30,7 @@ public class RedisConfig {
         // key 采用 String 序列化
         template.setKeySerializer(stringSerializer);
         // value 采用 JSON 序列化
-        template.setValueSerializer(jacksonSerializer);
+        template.setValueSerializer(stringSerializer);
         // hash key 也用 String
         template.setHashKeySerializer(stringSerializer);
         // hash value 用 JSON

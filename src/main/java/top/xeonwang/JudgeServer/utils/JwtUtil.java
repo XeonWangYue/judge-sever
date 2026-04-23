@@ -8,6 +8,7 @@ import top.xeonwang.JudgeServer.entity.auth.TokenConstants;
 
 import java.security.Key;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Map;
 
 @Component
@@ -47,6 +48,9 @@ public class JwtUtil {
      * 统一生成Token
      */
     private String createToken(String userId, Map<String, Object> claims, long expireTime, String tokenType) {
+        if (claims == null || claims.isEmpty()) {
+            claims = new HashMap<>();
+        }
         return Jwts.builder()
                 .setClaims(claims)  // 自定义信息（权限、用户信息等）
                 .setSubject(userId) // 用户ID（唯一标识）
