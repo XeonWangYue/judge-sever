@@ -1,8 +1,8 @@
 package top.xeonwang.JudgeServer.component;
 
+import jakarta.annotation.Resource;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
 import top.xeonwang.JudgeServer.entity.auth.TokenConstants;
@@ -12,9 +12,9 @@ import top.xeonwang.JudgeServer.utils.JwtUtil;
 
 
 @Component
-@RequiredArgsConstructor
 public class TokenInterceptor implements HandlerInterceptor {
 
+    @Resource
     private JwtUtil jwtUtil;
 
     @Override

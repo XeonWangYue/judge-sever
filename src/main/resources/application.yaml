@@ -1,10 +1,10 @@
-
 server:
   port: 8081
 
 spring:
+  cors:
+    allow-credentials: true
   application:
-
     name: judge-server
   # 数据库 PostgreSQL
   datasource:

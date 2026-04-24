@@ -1,12 +1,14 @@
 package top.xeonwang.JudgeServer.service;
 
 import jakarta.annotation.Resource;
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import top.xeonwang.JudgeServer.entity.auth.RedisPrefixConstants;
 import top.xeonwang.JudgeServer.entity.auth.TokenConstants;
 import top.xeonwang.JudgeServer.exception.AuthCode;
 import top.xeonwang.JudgeServer.exception.AuthException;
+import top.xeonwang.JudgeServer.utils.CookieUtil;
 import top.xeonwang.JudgeServer.utils.JwtUtil;
 import top.xeonwang.JudgeServer.utils.RedisUtil;
 
@@ -22,6 +24,9 @@ public class AuthService {
 
     @Resource
     private JwtUtil jwtUtil;
+
+    @Resource
+    private CookieUtil cookieUtil;
 
     /**
      * 初始令牌校验，返回长短期Token
@@ -49,17 +54,33 @@ public class AuthService {
         String refreshRedisKey = RedisPrefixConstants.REFRESH_TOKEN_KEY + userId;
         redisUtil.set(refreshRedisKey, refreshToken, 7, TimeUnit.DAYS);
 
+        cookieUtil.setRefreshTokenCookie(refreshToken, 7 * 86400);
+
         // 7. 返回给前端
         Map<String, String> result = new HashMap<>();
         result.put("accessToken", accessToken);
-        result.put("refreshToken", refreshToken);
         return result;
     }
 
     /**
      * 刷新AccessToken（前端传入RefreshToken）
      */
-    public Map<String, String> refreshToken(String refreshToken) {
+    public Map<String, String> refreshToken(HttpServletRequest request) {
+        String refreshToken = null;
+        jakarta.servlet.http.Cookie[] cookies = request.getCookies();
+        if (cookies != null) {
+            for (jakarta.servlet.http.Cookie cookie : cookies) {
+                if ("refresh_token".equals(cookie.getName())) {
+                    refreshToken = cookie.getValue();
+                    break;
+                }
+            }
+        }
+        // 2. 判空抛异常
+        if (refreshToken == null || refreshToken.isBlank()) {
+            throw new AuthException(AuthCode.REFRESH_TOKEN_ERR, "未携带刷新令牌，请重新登录");
+        }
+
         // 1. 校验RefreshToken格式和签名
         if (!jwtUtil.validateToken(refreshToken)) {
             throw new AuthException(AuthCode.REFRESH_TOKEN_ERR, "刷新令牌无效");
