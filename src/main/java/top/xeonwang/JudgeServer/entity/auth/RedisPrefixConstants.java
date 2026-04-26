@@ -15,4 +15,6 @@ public class RedisPrefixConstants {
      * Redis 存储刷新令牌前缀
      */
     public static final String REFRESH_TOKEN_KEY = "refresh:token:";
+
+    public static final String LOCK_KEY_PREFIX = "lock:user:";
 }

@@ -14,7 +14,7 @@ spring:
     driver-class-name: org.postgresql.Driver
   influxdb3:
     url: http://localhost:8181
-    token: "apiv3_QeIVPstZHvG6zA10ng8j35-Mh9m0a9-wCsWAvq3b0ZLZjUBEmBBXOKWyRznvDQXM8V3Gs6tWcAp3E6dzaKfsQw"
+    token: "apiv3_K-UPBDSw23mDTgzOzq3oYNmdSKPqDfy-q4xOMGF2_fvJ6nR5c2s0gCyFiMV9YG-B3aV-9nIHQ4k3thfzCqAcPg"
     timeout: 30000
   data:
     redis:

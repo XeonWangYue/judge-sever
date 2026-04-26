@@ -1,8 +1,11 @@
 package top.xeonwang.JudgeServer.exception;
 
+import lombok.Getter;
+
 /**
  * 认证/Token 专用业务异常
  */
+@Getter
 public class AuthException extends RuntimeException {
     // 自定义错误码
     private final Integer code;
@@ -14,11 +17,4 @@ public class AuthException extends RuntimeException {
         this.msg = msg;
     }
 
-    public Integer getCode() {
-        return code;
-    }
-
-    public String getMsg() {
-        return msg;
-    }
 }
