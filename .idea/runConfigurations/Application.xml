@@ -2,6 +2,7 @@
   <configuration default="false" name="Application" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
     <module name="judge-server" />
     <option name="SPRING_BOOT_MAIN_CLASS" value="top.xeonwang.JudgeServer.Application" />
+    <option name="VM_PARAMETERS" value="--add-opens=java.base/java.nio=org.apache.arrow.memory.core,ALL-UNNAMED" />
     <method v="2">
       <option name="Make" enabled="true" />
     </method>

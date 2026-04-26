@@ -12,6 +12,10 @@ spring:
     username: postgres
     password: ai1331092
     driver-class-name: org.postgresql.Driver
+  influxdb3:
+    url: http://localhost:8181
+    token: "apiv3_QeIVPstZHvG6zA10ng8j35-Mh9m0a9-wCsWAvq3b0ZLZjUBEmBBXOKWyRznvDQXM8V3Gs6tWcAp3E6dzaKfsQw"
+    timeout: 30000
   data:
     redis:
       host: localhost
@@ -24,10 +28,14 @@ spring:
           max-wait: -1ms    # 最大阻塞时间（-1无限制）
           max-idle: 8       # 最大空闲连接
           min-idle: 0       # 最小空闲连接
+  jackson:
+    date-format: yyyy-MM-dd HH:mm:ss.SSS
+    time-zone: ${user.timezone}
 logging:
   level:
     root: info
     org.springframework.web: debug
+    top.xeonwang: debug
 
 # 令牌配置
 token:

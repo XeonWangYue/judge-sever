@@ -1,6 +1,5 @@
 package top.xeonwang.JudgeServer.service;
 
-import jakarta.annotation.Resource;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -17,16 +16,14 @@ import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 @Service
+@RequiredArgsConstructor
 public class AuthService {
 
-    @Resource
-    private RedisUtil redisUtil;
+    private final RedisUtil redisUtil;
 
-    @Resource
-    private JwtUtil jwtUtil;
+    private final JwtUtil jwtUtil;
 
-    @Resource
-    private CookieUtil cookieUtil;
+    private final CookieUtil cookieUtil;
 
     /**
      * 初始令牌校验，返回长短期Token

@@ -1,6 +1,6 @@
 package top.xeonwang.JudgeServer.controller;
 
-import top.xeonwang.JudgeServer.common.ResponseBody;
+import top.xeonwang.JudgeServer.common.ResultVO;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -11,14 +11,14 @@ import org.springframework.web.multipart.MultipartFile;
 public class CommitController {
 
     @PostMapping("/{questionId}")
-    public ResponseBody<String> uploadMultiFile(
+    public ResultVO<String> uploadMultiFile(
             @PathVariable Long questionId,
             @RequestParam("code") MultipartFile code,
             @RequestParam("language") String language
     ) {
         log.info("Question Id: {}, code length: {}", questionId, code.getSize());
 
-        return new ResponseBody<>();
+        return new ResultVO<>();
     }
 
 }
