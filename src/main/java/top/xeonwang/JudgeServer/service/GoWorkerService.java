@@ -10,7 +10,13 @@ public class GoWorkerService {
 
     private final TimeSeriesService timeSeriesService;
 
+
+
     public void saveMonitorData(Report rpt, String workerId) {
         timeSeriesService.writeWorkerMonitorData(rpt, workerId);
+    }
+
+    public void sendCodeToWorker(){
+
     }
 }

@@ -5,7 +5,7 @@ import jakarta.websocket.server.ServerEndpoint;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import org.springframework.web.socket.CloseStatus;
-import top.xeonwang.JudgeServer.component.WebSocketSessionManager;
+import top.xeonwang.JudgeServer.component.UserSessionManager;
 import top.xeonwang.JudgeServer.entity.auth.RedisPrefixConstants;
 import top.xeonwang.JudgeServer.entity.ws.WsUser;
 import top.xeonwang.JudgeServer.utils.JsonUtil;
@@ -24,7 +24,7 @@ import java.util.concurrent.TimeUnit;
 @Slf4j
 public class PlatformInfoServer {
 
-    private final WebSocketSessionManager webSocketSessionManager = SpringContextUtil.getBean(WebSocketSessionManager.class);
+    private final UserSessionManager userSessionManager = SpringContextUtil.getBean(UserSessionManager.class);
 
     private final RedisUtil redisUtil = SpringContextUtil.getBean(RedisUtil.class);
 
@@ -56,7 +56,7 @@ public class PlatformInfoServer {
         }
 
         String redisUserKey = RedisPrefixConstants.WS_USER_KEY + this.userId;
-        if (redisUtil.get(redisUserKey) != null && webSocketSessionManager.hasSession(this.userId)) {
+        if (redisUtil.get(redisUserKey) != null && userSessionManager.hasSession(this.userId)) {
             try {
                 this.closeReason = "重复连接";
                 log.warn("重复连接，直接断开");
@@ -70,7 +70,7 @@ public class PlatformInfoServer {
                 redisUserKey,
                 JsonUtil.toJsonString(new WsUser(this.userId, this.session.getId()))
         );
-        webSocketSessionManager.addSession(this.userId, this.session);
+        userSessionManager.addSession(this.userId, this.session);
 
         log.info("WebSocket 连接成功：userId={}", userId);
     }
@@ -83,7 +83,7 @@ public class PlatformInfoServer {
             log.warn("断开但不清理");
         } else {
             redisUtil.del(RedisPrefixConstants.WS_USER_KEY + userId);
-            webSocketSessionManager.removeSession(this.userId);
+            userSessionManager.removeSession(this.userId);
         }
 
         log.info("WebSocket 断开连接：userId={}", userId);
