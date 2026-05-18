@@ -70,6 +70,14 @@
             <artifactId>flyway-core</artifactId>
         </dependency>
 
+        <!-- Flyway PostgreSQL 支持（Spring Boot 3.x 必须显式引入） -->
+        <dependency>
+            <groupId>org.flywaydb</groupId>
+            <artifactId>flyway-database-postgresql</artifactId>
+            <version>12.6.1</version>
+            <scope>runtime</scope>
+        </dependency>
+
         <!-- lombok -->
         <dependency>
             <groupId>org.projectlombok</groupId>
